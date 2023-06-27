@@ -1,0 +1,111 @@
+A dictionary is constructed from two lists of the same length using the ! operator. The left operand is the list of (presumably unique, though unenforced) keys and the right operand is the list of values. A dictionary is a first-class value, just like an integer or list and can be assigned to a variable.
+
+
+q)`a`b`c!10 20 30
+a| 10
+b| 20
+c| 30
+q)d:`a`b`c!10 20 30
+Observe that dictionary console display looks like the I/O table of a mathematical mapping. No coincidence.
+
+Given a key, we retrieve the associated value with the same square-bracket notation as list indexing.
+
+
+q)d[`a]
+10
+
+q)dc:`c1`c2!(10 20 30; 1.1 2.2 3.3)
+Retrieving by key yields the associated column, which is itself a list and so can be indexed.
+
+
+q)dc[`c1]
+10 20 30
+
+q)dc[`c1][2]
+30
+q)dc[`c2][2]
+3.3
+q)dc[;0]
+c1| 10
+c2| 1.1
+q)dc[;1]
+c1| 20
+c2| 2.2
+
+We apply the built-in operator flip (better called “transpose”) to reverse the order of indexing. We still have the same column dictionary but slot retrieval is reversed: columns are accessed in the second slot and section dictionaries are retrieved from the first slot.
+
+q)flip dc
+c1 c2
+------
+10 1.1
+20 2.2
+30 3.3
+
+The square brackets are necessary to differentiate a table from a list
+The occurrence of : is not assignment. It is merely a syntactic marker separating the name from the column values
+The column names in table definition are not symbols, although they are converted to symbols under the covers.
+
+
+q)d:10 20 30 ! "abc"
+q)d
+10| a
+20| b
+30| c
+
+
+q)key d
+10 20 30
+q)value d
+"abc"
+q)count d
+3
+
+q)d 10
+"a"
+q)d 20
+"b"
+
+
+assignement must be of the same type
+q)d[10]:42
+'type
+  [0]  d[10]:42
+            ^
+q)d[10]:"42"
+'type
+  [0]  d[10]:"42"
+            ^
+
+q)d[10]:"4"
+q)d
+10| 4
+20| b
+30| c
+q)d[10]:"U"
+q)d
+10| U
+20| b
+30| c
+
+Extracting a sub-dict
+q)d 10 20
+"Ub"
+
+Find value in dictionary (overload of ?)
+q)d?"U"
+10
+q)d?"z" / won't be found
+0N
+
+q)where d="U"
+,10
+q)d
+10| U
+20| b
+30| c
+q)where d="c"
+,30
+
+
+c
+

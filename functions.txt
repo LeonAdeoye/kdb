@@ -1,0 +1,72 @@
+functions
+The formal notation for function definition is,
+
+{[p1;...;pn] e1; ...; em}
+
+The optional p1, ... , pn are formal parameters. The expressions e1, ... , em – which presumably involve the parameters – represent the steps of an algorithm that are evaluated in order. Note that while the expressions are sequenced left-to-right, an individual expression is always evaluated right-to-left.
+
+The semi-colons in the body are separators, not terminators. Do not place a semi-colon after the last expression unless you deliberately want to suppress the return value.
+
+
+An application with too many arguments generates a 'rank error. This doesn’t mean your code stinks, although it might.
+
+q) {[x] x*x}[3;4]
+'rank
+
+If, like mathematicians, you are satisfied with generic parameters x, y and z, you can omit the formal parameters and their brackets. Three implicit positional parameters x, y and z are automatically defined and available in a function’s expressions when no parameters are explicitly declared. Thus, the following two specifications result in equivalent input-output relations.
+
+
+{[x] x*x}
+{x*x}
+As do,
+
+
+{[x;y] x+y}
+{x+y}
+
+q){[x]x*x}5 /creates a function by encapusulating the commands in curly braces, and provides a argument of 5. [x] is parameter followed by func body.
+25
+
+q){[x]x*x}[4] /another way to provide an argument of 4
+16
+
+q){x*x}10 /Another way to create a func with the parameter implicit.
+100
+
+
+q){[x] x+(2-x*x)%2*x}/[1.0] /Above is Newton Raphson method
+1.414214
+
+
+q){[x] x+(2-x*x)%2*x}\[1.0] //show intermmediate results
+1 1.5 1.416667 1.414216 1.414214 1.414214
+
+q)\P 16 /show 16 decimal places
+
+q){[x] x+(2-x*x)%2*x}\[1.0] //show intermmediate results
+1 1.5 1.416666666666667 1.41421568627451 1.41421356237469 1.414213562373095
+
+q){x+(2-x*x)%2*x}\[1.0] //show intermmediate results
+1 1.5 1.416666666666667 1.41421568627451 1.41421356237469 1.414213562373095
+
+
+q){x*x}sum 2 3          / (a +b)^2
+25
+
+q)sum{x*x}2 3           / a^2 + b^2
+13
+q){sum(x*x),2*/x}2 3    / (a + b)^2 = a^2 + b^2 + 2ab
+25
+
+q)sqrt sum{x*x}3 4      / sqrt(a^2 + b^2)
+5f
+
+Function definition is delimited by matching curly braces { and }. Immediately after the opening brace, the formal parameters are names enclosed in square brackets [ and ] and separated by semi-colons. These parameters presumably appear in the body of the function, which follows the formal parameters and is a succession of expressions sequenced by semi-colons.
+
+q){[x] x*x}
+_
+q)sq:{[x] x*x}
+
+q)pyth:{[x;y] a:x*x; b:y*y; a+b} /a function that takes two input values and returns the sum of their squares.
+
+

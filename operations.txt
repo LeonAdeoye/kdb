@@ -1,0 +1,182 @@
+q)`:./data/q_file.txt 0: ("Hi"; "Leon"; "How are you?")
+`:./data/q_file.txt-----------------------------
+q)\ write the strings to a file using the file write function called :
+
+q)read0 `:./data/q_file.txt
+"Hi"
+"Leon"
+"How are you?"
+
+
+q)+[2;3]
+5
+q)=[2;3]
+0b
+q)=[2;2]
+1b
+
+q)neg 1 2 3
+-1 -2 -3
+
+q)not 0b
+1b
+
+q)10 20 30 % 1 2 3
+10 10 10f
+
+
+q)x:42
+q)x+:1 // similar to +=
+q)x
+
+
+q)x&:21 / assign whichever is lesser of 43 and 21 to x
+q)x
+21
+
+q)x|:42 / x is now 21 so assign whichever is greater btw 21 and 42
+q)x
+42
+
+
+q)0b /false
+0b
+
+q)1b /true
+1b
+
+q)101b /a list of threeboolean values true, false, true
+101b
+
+q)42=6*7
+1b
+
+q)1 2 3=10 2 3 /comparing elements in the list for equality gives a listof booleans.. One boolean for each element
+011b
+
+q)2023.06.21 /date value
+2023.06.21
+
+q)2000.01.01=0 /a date converts to a number from the start of the millnium
+1b
+
+q)1999.12.31=-1 /the day before the millennium is -1.
+1b
+
+q)1999.12.31+1 /addin one day to the day before the millennium
+2000.01.01
+
+q)2000.01m /the month of a year.
+2000.01m
+
+q)2001.01m=0 /the count of months from the the start of the millennium
+0b
+
+q)2000.01m=0 /the count of months from the the start of the millennium
+1b
+
+q)2000.01.01=2000.01m
+1b
+
+q)`long$1.0 /cast 1.0 to a long. The $ is the cast operator
+1
+
+q)`float$1
+1f
+
+q)`boolean$1
+1b
+
+q)`boolean$0)
+0b
+
+q)`date$1
+2000.01.02
+
+q)`date$0
+2000.01.01
+
+q)`date$31
+2000.02.01
+
+
+
+
+
+q)4|5 /returns the largest of two operands
+5
+
+q)4&5 /returns the smallest of wo operands
+4
+
+
+
+q)sqrt 4        / square root
+2.0
+
+q)reciprocal 4  / 1/x
+0.25
+
+q)log exp 2           / logarithm, ln e^2
+
+Type interogation:
+
+q)type d?"c"
+-7h
+q)type 10
+-7h
+q)type 10.f
+-9h
+q)type 10f
+-9h
+q)type "a"
+-10h
+q)type `adeoye
+-11h
+
+Type casting:
+q)"j"$42i
+42
+q)"i"$42
+42i
+q)"f"$42
+42f
+2.0
+
+
+q)A:5?1.;A                 / 5 random floats from 0..1
+0.03505812 0.7834427 0.7999031 0.9046515 0.2232866
+
+q)B:10?2;B                 / coin toss
+1 1 1 0 1 0 1 1 0 0
+
+q)D:distinct S:"mississippi"                / distinct items
+"misp"
+
+A useful operator for constructing lists of test data is ?, which generates pseudo-random data. We can generate 10 numbers randomly selected, with replacement, from the first 20 integers starting at 0 (i.e., not including 20).
+
+q)10?20 
+4 13 9 2 7 0 17 14 9 18
+
+We can similarly generate 10 random floats between 0.0 and 100.0 (not including 100.0).
+
+q)5?5.0
+0.01416765 4.448517 0.534962 2.111112 3.83743
+
+q)10?`aapl`ibm /We can make 10 random selections from the items in a list
+`aapl`ibm`ibm`ibm`aapl`ibm`aapl`ibm`aapl`aapl
+
+construct a list of 1,000,000 random dates in the month of January 2015.
+q)dts:2015.01.01+1000000?31
+
+Next a list of 1,000,000 volumes given as positive lots of 10.
+q)vols:10*1+1000000?1000
+q)vols
+2740 6230 9860 9460 5930 5240 7770 2650 2990 6070 2760 3970 120 20 2570 9890 ..
+
+Next a list of 1,000,000 timespans.
+
+
+
+
+

@@ -1,0 +1,153 @@
+q)leon:([] c1:`a`b`c; c2:42; c3:98.6)
+q)leon
+c1 c2 c3
+----------
+a  42 98.6
+b  42 98.6
+c  42 98.6
+q)type leon
+98h
+
+If you create a table as the flip of a column dictionary, item-wise extension is performed when the column dictionary is flipped into a table.
+q)flip `c1`c2`c3!(`a`b`c;42;1.1)
+c1 c2 c3
+---------
+a  42 1.1
+b  42 1.1
+c  42 1.1
+
+q)count leon
+3
+
+q)select c3,c2 from leon
+c3   c2
+-------
+98.6 42
+98.6 42
+98.6 42
+
+q)`leon insert (`d;42;37.8)
+,3
+q)leon
+c1 c2 c3
+----------
+a  42 98.6
+b  42 98.6
+c  42 98.6
+d  42 37.8
+
+t:([] date:dates;time:times;sym:syms;qty:qtys;px:pxs)            
+
+
+q)t:`date`time xasc t /sort by date and time and assign back to table
+
+q)t3.01.02 02:29:19.775 amzn  5800 1201.094
+date       time         sym   qty   px4.734
+--------------------------------------------
+2023.01.01 00:00:01.129 appl  8800  177.0317
+2023.01.01 00:00:02.099 amzn  8000  1201.152
+2023.01.01 00:00:02.670 appl  1400  172.346
+2023.01.01 00:00:02.885 amzn  9300  1214.74
+2023.01.01 00:00:03.396 appl  7600  174.9742
+
+q)10#t
+date       time         sym   qty   px
+--------------------------------------------
+2023.01.01 00:00:01.129 appl  8800  177.0317
+2023.01.01 00:00:02.099 amzn  8000  1201.152
+2023.01.01 00:00:02.670 appl  1400  172.346
+2023.01.01 00:00:02.885 amzn  9300  1214.74
+2023.01.01 00:00:03.396 appl  7600  174.9742
+2023.01.01 00:00:03.834 googl 1100  1084.045
+2023.01.01 00:00:04.047 googl 2700  1076.661
+2023.01.01 00:00:04.096 googl 10000 1103.305
+2023.01.01 00:00:04.435 amzn  900   1207.994
+2023.01.01 00:00:04.551 googl 4300  1101.006
+
+q)5#t /give me first 5
+date       time         sym  qty  px
+------------------------------------------
+2023.01.01 00:00:01.129 appl 8800 177.0317
+2023.01.01 00:00:02.099 amzn 8000 1201.152
+2023.01.01 00:00:02.670 appl 1400 172.346
+2023.01.01 00:00:02.885 amzn 9300 1214.74
+2023.01.01 00:00:03.396 appl 7600 174.9742
+
+q)5#t /give me first 5
+date       time         sym  qty  px
+------------------------------------------
+2023.01.01 00:00:01.129 appl 8800 177.0317
+2023.01.01 00:00:02.099 amzn 8000 1201.152
+2023.01.01 00:00:02.670 appl 1400 172.346
+2023.01.01 00:00:02.885 amzn 9300 1214.74
+
+
+q)select open:first px, close:last px by date,time from t where sym=`appl
+date       time        | open     close   e sym=`appl
+-----------------------| -----------------
+2023.01.01 00:00:01.129| 177.0317 177.0317
+2023.01.01 00:00:02.670| 172.346  172.346
+2023.01.01 00:00:03.396| 174.9742 174.9742
+2023.01.01 00:00:04.772| 176.7405 176.7405
+2023.01.01 00:00:05.190| 175.5885 175.5885
+2023.01.01 00:00:05.254| 172.7501 172.7501
+2023.01.01 00:00:05.263| 174.0339 174.0339
+2023.01.01 00:00:08.121| 175.6196 175.6196
+2023.01.01 00:00:10.048| 175.3948 175.3948
+2023.01.01 00:00:10.226| 174.6725 174.6725
+2023.01.01 00:00:10.536| 172.8844 172.8844
+2023.01.01 00:00:10.994| 173.3863 173.3863
+
+q) 5#select open:first px, close:last px by date,time from t where sym=`appl
+date       time        | open     close
+-----------------------| -----------------
+2023.01.01 00:00:01.129| 177.0317 177.0317
+2023.01.01 00:00:02.670| 172.346  172.3465
+2023.01.01 00:00:03.396| 174.9742 174.9742
+
+// Create table:
+q)n:1000000
+q)item:`apple`banana`orange`pear
+q)city:`beijing`chicago`london`paris
+q)tab:([]time:asc n?0D0;n?item;amount:n?100;n?city)
+
+q)select from tab where item=`banana 
+time                 item   amount city
+------------------------------------------
+0D00:00:00.466201454 banana 31     london 
+0D00:00:00.712388008 banana 86     london 
+0D00:00:00.952962040 banana 20     london 
+0D00:00:01.036425679 banana 49     chicago
+0D00:00:01.254006475 banana 94     beijing
+
+
+q)select sum amount by city from tab                                            
+city   | amount  
+-------| --------
+beijing| 12398569
+chicago| 12317015
+london | 12375412
+paris  | 12421447
+
+q)select sum amount by time.hh,item from tab 
+hh item  | amount
+---------| ------
+0  apple | 522704
+0  banana| 506947
+0  orange| 503054
+0  pear  | 515212
+1  apple | 513723
+
+q)tms:1000000?24:00:00.000000000
+
+Now collect these into a table and inspect the first 5 records. Remember, a table is a list of records so # applies.
+
+
+q)trades:([] dt:dts; tm:tms; sym:syms; vol:vols; px:pxs)
+q)5#trades
+
+The first thing you observe in your console display is that the trades are not in temporal order. We fix this by sorting on time within date using xasc.
+
+
+q)trades:`dt`tm xasc trades
+q)5#trades
